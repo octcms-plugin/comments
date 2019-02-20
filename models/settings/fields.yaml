@@ -1,0 +1,9 @@
+fields:
+    post_url_prefix:
+        label: octcms.comments::lang.settings.post_url_prefix
+        commentAbove: octcms.comments::lang.settings.post_url_prefix_comment
+        type: text
+        default: 'article/'
+
+
+

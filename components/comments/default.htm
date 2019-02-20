@@ -1,0 +1,9 @@
+{% set commentPosts = __SELF__.commentPosts %}
+
+<ul class="{{ ulClasses }}">
+    {% for commentPost in commentPosts %}
+    <li class="{{ liClasses }}">
+        <a href="{{ commentPost.url|app }}#comments-content" title="{{ commentPost.content }}">{{ commentPost.content }}</a>
+    </li>
+    {% endfor %}
+</ul>
