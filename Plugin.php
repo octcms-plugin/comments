@@ -3,9 +3,9 @@
 namespace Octcms\Comments;
 
 use Octcms\Comments\Models\Settings;
-use RainLab\Blog\Models\Post;
 use SaurabhDhariwal\Comments\Models\Comments;
 use System\Classes\PluginBase;
+use System\Classes\PluginManager;
 
 /**
  * Class Plugin
@@ -39,21 +39,23 @@ class Plugin extends PluginBase
 
     public function boot()
     {
-        Post::extend(function (Post $model) {
-            $model->bindEvent('model.afterFetch', function () use ($model) {
-                $postUrl = Settings::get('post_url_prefix', false).$model->slug;
-                $model->commentsCount = Comments::where(['url' => $postUrl, 'status' => Comments::STATUS_APPROVED])->count(); //评论数量
+        if(PluginManager::instance()->hasPlugin('RainLab.Blog')) {
+            \RainLab\Blog\Models\Post::extend(function (\RainLab\Blog\Models\Post $model) {
+                $model->bindEvent('model.afterFetch', function () use ($model) {
+                    $postUrl = Settings::get('post_url_prefix', false) . $model->slug;
+                    $model->commentsCount = Comments::where(['url' => $postUrl, 'status' => Comments::STATUS_APPROVED])->count(); //评论数量
+                });
+                $model->bindEvent('model.beforeSave', function () use ($model) {
+                    unset($model->commentsCount);
+                });
+                $model->bindEvent('model.beforeCreate', function () use ($model) {
+                    unset($model->commentsCount);
+                });
+                $model->bindEvent('model.beforeUpdate', function () use ($model) {
+                    unset($model->commentsCount);
+                });
             });
-            $model->bindEvent('model.beforeSave', function () use ($model) {
-                unset($model->commentsCount);
-            });
-            $model->bindEvent('model.beforeCreate', function () use ($model) {
-                unset($model->commentsCount);
-            });
-            $model->bindEvent('model.beforeUpdate', function () use ($model) {
-                unset($model->commentsCount);
-            });
-        });
+        }
     }
 
     /**

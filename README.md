@@ -4,12 +4,12 @@ The plugin inherits [SaurabhDhariwal.Comments](https://octobercms.com/plugin/sau
 
 **Features**
 ----------
- - Add all comments list component.
- - Add post comments count.
+ - Latest comments list component.
+ - Number of comments on posts.
 
 **Installation**
 ----------
  1. Add this plugin to a project.
  2. Also You must install [SaurabhDhariwal.Comments](https://octobercms.com/plugin/saurabhdhariwal-comments).
- 3. Add Comments component to page.
+ 3. Add Latest comments list component to page.
 
